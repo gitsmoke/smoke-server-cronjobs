@@ -19,5 +19,5 @@ if test -z "$SMOKE_GIT_PUSH_URL"; then
 fi
 
 cd $SMOKE_GIT
-git remote add origin git@github.com:avar/git-smoke-reports.git || :
+git remote add origin $SMOKE_GIT_PUSH_URL || :
 git push origin -u master
