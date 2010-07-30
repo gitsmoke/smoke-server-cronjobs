@@ -1,7 +1,6 @@
 SMOKE_REPORTS=/home/smolder/smolder/smoke_reports
 SMOKE_GIT=/var/backup/smolder/smoke_reports
-SMOKE_GIT_PUSH_URL=git@github.com:avar/git-smoke-reports.git
+SMOKE_GIT_PUSH_URL=git@github.com:gitsmoke/smoke-reports.git
 
-0  */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-reports  -c '/etc/git-smoke-report-scripts/smolder-backup-reports-to-git'
-5  */2 * * * root    nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-chownmod -c '/etc/git-smoke-report-scripts/smolder-chown-and-chmod-git'
-10  */2 * * * avar   nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-push -c '/etc/git-smoke-report-scripts/smolder-push-reports-to-git'
+0  */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-reports  -c '/etc/smoke-server-cronjobs/smolder-backup-reports-to-git'
+10 */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-push -c '/etc/smoke-server-cronjobs/smolder-push-reports-to-git'
