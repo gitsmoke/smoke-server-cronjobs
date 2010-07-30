@@ -4,6 +4,6 @@ SMOKE_DATABASE=/var/backup/sqlite/smolder
 SMOKE_URL_REPORTS=git@github.com:gitsmoke/smoke-reports.git
 SMOKE_URL_DATABASE=git@github.com:gitsmoke/smoke-database.git
 
-0  */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-reports  -c '/etc/smoke-server-cronjobs/smolder-backup-reports-to-git'
-10 */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-push -c '/etc/smoke-server-cronjobs/smolder-push-reports-to-git'
-12 */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-push -c '/etc/smoke-server-cronjobs/smolder-push-database-to-git'
+0  */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-reports   -c '/etc/smoke-server-cronjobs/smolder-backup-reports-to-git'
+10 */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-pushr -c '/etc/smoke-server-cronjobs/smolder-push-reports-to-git'
+12 */2 * * * smolder nice -n 15 ionice -c 2 -n 6 cronjob -E -r smolder -j smolder-git-pushd -c '/etc/smoke-server-cronjobs/smolder-push-database-to-git'
