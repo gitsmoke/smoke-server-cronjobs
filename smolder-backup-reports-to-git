@@ -8,16 +8,56 @@ fail () {
     exit 1
 }
 
-if test -z "$SMOKE_REPORTS"; then
+if test -z "$SMOKE_REPORTS" || ! test -d "$SMOKE_REPORTS"; then
     echo "$0: You must supply a path to SMOKE_REPORTS"
     exit 1
 fi
 
-TO=$(mktemp -d smolder-reports.XXXX)
+if test -z "$SMOKE_GIT"; then
+    echo "$0: You must supply a path to a Git dir to dump to as SMOKE_GIT="
+    exit 1
+fi
+
+TO=$(mktemp -d)
 
 rsync -av \
     --progress --stats \
-    --exclude=*tap \
-    --exclude=*html \
-    $SMOKE_REPORTS \
+    --exclude=tap \
+    --exclude=html \
+    $SMOKE_REPORTS/ \
 	$TO
+
+# Unpack and delete tarballs
+for tar in $(find $TO -type f)
+do
+    dir=$(dirname "$tar")
+    base=$(basename "$tar")
+    (
+        cd $dir
+        tar xzvf $base &&
+        rm -v $base
+    )
+done
+wait
+
+mkdir -p $SMOKE_GIT
+cd $SMOKE_GIT
+
+if ! test -d .git; then
+    git init >/dev/null
+else
+    git rm -r *
+fi
+
+rsync -av --progress --stats \
+    $TO/ \
+    .
+
+GIT_AUTHOR_NAME="smolder on v.nix.is"
+GIT_AUTHOR_EMAIL="smolder@v.nix.is"
+export GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL
+
+git add .
+git commit -m"Bumping smolder reports for Git"
+
+rm -rf $TO
