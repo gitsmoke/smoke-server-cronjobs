@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Exit on errors
+trap 'fail' ERR
+fail () {
+    code=$?
+    echo "Failed with exit code $code"
+    exit 1
+}
+
+if test -z "$SMOKE_DATABASE"; then
+    echo "$0: You must supply a path to a Git dir as SMOKE_DATABASE="
+    exit 1
+fi
+
+if test -z "$SMOKE_URL_DATABASE"; then
+    echo "$0: You must supply a Git push url SMOKE_URL_DATABASE="
+    exit 1
+fi
+
+cd $SMOKE_DATABASE
+git remote rm origin || :
+git remote add origin $SMOKE_URL_DATABASE || :
+git push origin -u master
