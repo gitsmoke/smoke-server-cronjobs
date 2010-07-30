@@ -24,7 +24,7 @@ rsync -av \
     --progress --stats \
     --exclude=tap \
     --exclude=html \
-    $SMOKE_REPORTS/ \
+    $SMOKE_REPORTS/1/ \
 	$TO
 
 # Unpack and delete tarballs
